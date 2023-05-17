@@ -1,0 +1,19 @@
+{% load static %}
+<div class="navbar-sec">
+    <div class="wdi-img">
+        <img src="https://ips.wdipl.com/assets/img/wdipl-logo-black.svg" alt="" width="100px">
+      </div>
+
+      <div class="prof-img">
+        <div class="prof-inn">           
+            <div class="item">
+              <a class="sub-btn">{% if request.user.picture %}<img src="{{request.user.picture.url}}" alt="" width="100px">{% else %}<img src="{% static '/media/image/prof.png' %}" alt="" width="100px">{% endif %}</a>
+              <div class="user-name">{% if request.user.is_authenticated %}{{ request.user.first_name }}{% endif %}</div>
+            </div>
+        </div>
+        <div class="sub-menu-logout">
+                <a href="/logout/" class="sub-item"> <i class="fa fa-power-off mr-1 " aria-hidden="true"></i> Logout</a>            
+        </div>
+      </div>
+</div>
+

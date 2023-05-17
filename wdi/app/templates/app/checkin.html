@@ -1,0 +1,32 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block msg %}
+    {% if messages %}
+    {% for message in messages %}
+    <div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissable fade show" {% endif %}> <strong>{{message}}</strong><button type="button" class="close" data-dismiss="alert" area-label="Close"><span area-hidden="True">&times;</span></button></div>
+    {% endfor %}
+    {% endif %}
+{% endblock msg %}
+
+{% block content %}
+<div class="container">
+
+  <h2>Check In</h2>
+  {% if form.errors %}
+    <p>Your form has errors, please correct the errors below:</p>
+    <ul>
+      {% for field in form %}
+        {% for error in field.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      {% endfor %}
+    </ul>
+  {% endif %}
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Check In</button>
+  </form>
+
+</div>
+{% endblock content %}

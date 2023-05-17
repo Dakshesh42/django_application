@@ -1,0 +1,49 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block msg %}
+{% if messages %}
+{% for message in messages %}
+<div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissable fade show" {% endif %}>
+  <strong>{{message}}</strong><button type="button" class="close" data-dismiss="alert" area-label="Close"><span
+      area-hidden="True">&times;</span></button>
+</div>
+{% endfor %}
+{% endif %}
+{% endblock msg %}
+
+{% block content %}
+
+<h1>Attendance Records</h1>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form }}
+  <input type="submit" class="btn btn-success" value="Filter">
+</form>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Employee</th>
+      <th>Check-in</th>
+      <th>Check-out</th>
+      <th>Difference</th>
+      <th>Absent</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for attendance in attendance_list %}
+    <tr>
+      <td>{{ attendance.employee }}</td>
+      <td>{{ attendance.checkin }}</td>
+      <td>{{ attendance.checkout }}</td>
+      <td>{{ attendance.difference }}</td>
+      <td>{{ attendance.is_absent }}</td>
+      <td>{{ attendance.date }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock content %}

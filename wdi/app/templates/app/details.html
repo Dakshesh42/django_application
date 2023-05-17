@@ -1,0 +1,176 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block msg %}
+    {% if messages %}
+    {% for message in messages %}
+    <div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissable fade show" {% endif %}> <strong>{{message}}</strong><button type="button" class="close" data-dismiss="alert" area-label="Close"><span area-hidden="True">&times;</span></button></div>
+    {% endfor %}
+    {% endif %}
+{% endblock msg %}
+
+{% block content %} 
+<h3 class="mt-4">Employee Details</h3>
+<section class="jumbotron jumbo-color jumbo-2">
+    <div class="container">
+
+        <div class="row"> 
+            <div class="col-md-6 col-sm-12">
+                <div class="progress-text">
+                    <div class="rows">
+                        <div class="label">Email:</div>
+                        <div class="col-11 details">{{ emp.email }}</div>
+                    </div>
+                </div>
+                <br>
+                <div class="progress-text">
+                    <div class="rows">
+                        <div class="label">Name:</div>
+                        <div class="col-11 details">{{ emp.first_name }}</div>
+                    </div>
+                </div>
+                <br>
+                <div class="progress-text">
+                    <div class="rows">
+                        <div class="label">Gender:</div>
+                        <div class="col-11 details">{{ emp.gender }}</div>
+                    </div>
+                </div>
+                <br>
+                <div class="progress-text">
+                    <div class="rows">
+                        <div class="label">Mobile No.:</div>
+                        <div class="col-11 details">{{ emp.phone }}</div>
+                    </div>
+                </div>
+                <br>
+                <div class="progress-text">
+                    <div class="rows">
+                        <div class="label">DOB:</div>
+                        <div class="col-11 details">{{ emp.date_of_birth }}</div>
+                    </div>
+                </div>
+                <br>
+                <div class="progress-text">
+                    <div class="rows">
+                        <div class="label">Date of Joining:</div>
+                        <div class="col-11 details">{{ emp.joining_date }}</div>
+                    </div>
+                </div>
+                <br>
+                <div class="progress-text">
+                    <div class="rows">
+                        <div class="label">Qualification:</div>
+                        <div class="col-11 details">{{ emp.qualification }}</div>
+                    </div>
+                </div>
+                <br>
+                
+                <div class="progress-text">
+                    <div class="rows">
+                        <div class="label">Address:</div>
+                        <div class="col-11 details">{{ emp.address }}</div>
+                    </div>
+                </div>
+                <br>
+                <div class="progress-text">
+                    <div class="rows">
+                        <div class="label">CTC:</div>
+                        <div class="col-11 details">{{ emp.ctc }}</div>
+                    </div>
+                </div>
+                <br>
+            </div>           
+            <div class="col-md-6 col-sm-12">
+                <div class="progress-text">
+                    <div class="rows">
+                        <div class="label">Designation:</div>
+                        <div class="col-11 details">{{ emp.designation }}</div>
+                    </div>
+                </div>
+                <br>
+                    <div class="progress-text resumm">
+                        <div class="rows">
+                            <div class="label">Resume:</div>
+                            {% if emp.resume %}
+                               <a href="{{ emp.resume.url }}" class="view-color-dark" target="_blank">View</a>
+                            {% else %}
+                               <span class="text-muted">Not Uploaded</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <br>
+                    <div class="progress-text resumm">
+                        <div class="rows">
+                            <div class="label">Photo:</div>
+                            {% if emp.picture %}
+                               <a href="{{ emp.picture.url }}" class="view-color-dark" target="_blank">View</a>
+                            {% else %}
+                               <span class="text-muted">Not Uploaded</span>
+                            {% endif %}
+                        </div>
+                    </div>
+<br>
+                    <div class="progress-text resumm">
+                        <div class="rows">
+                            <div class="label">Edu docs:</div>
+                            {% if emp.edu_docs %}
+                               <a href="{{ emp.edu_docs.url }}" class="view-color-dark" target="_blank">View</a>
+                            {% else %}
+                               <span class="text-muted">Not Uploaded</span>
+                            {% endif %}
+                        </div>
+                    </div>
+<br>
+                    <div class="progress-text resumm">
+                        <div class="rows">
+                            <div class="label">Aadhar:</div>
+                            {% if emp.aadhar %}
+                               <a href="{{ emp.aadhar.url }}" class="view-color-dark" target="_blank">View</a>
+                            {% else %}
+                               <span class="text-muted">Not Uploaded</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="progress-text resumm">
+                        <div class="rows">
+                            <div class="label">PAN:</div>
+                            {% if emp.pan %}
+                               <a href="{{ emp.pan.url }}" class="view-color-dark" target="_blank">View</a>
+                            {% else %}
+                               <span class="text-muted">Not Uploaded</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <br>
+                    <div class="progress-text resumm">
+                        <div class="rows">
+                            <div class="label">Certificate:</div>
+                            {% if emp.certificate %}
+                               <a href="{{ emp.certificate.url }}" class="view-color-dark" target="_blank">View</a>
+                            {% else %}
+                               <span class="text-muted">Not Uploaded</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <br>
+                    
+                    <div class="progress-text resumm">
+                        <div class="rows">
+                            <div class="label">Additional certificate:</div>
+                            {% if emp.additional_certificate %}
+                               <a href="{{ emp.additional_certificate.url }}" class="view-color-dark" target="_blank">View</a>
+                            {% else %}
+                               <span class="text-muted">Not Uploaded</span>
+                            {% endif %}
+                            {% comment %} <div class="col-11 details">{{ emp.additional_certificate }}</div> {% endcomment %}
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>  
+        </div>
+    </div>
+</section>
+{% endblock content %}

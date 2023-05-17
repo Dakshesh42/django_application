@@ -1,0 +1,45 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block msg %}
+    {% if messages %}
+    {% for message in messages %}
+    <div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissable fade show" {% endif %}> <strong>{{message}}</strong><button type="button" class="close" data-dismiss="alert" area-label="Close"><span area-hidden="True">&times;</span></button></div>
+    {% endfor %}
+    {% endif %}
+{% endblock msg %}
+{% block content %} 
+<br>
+ 
+
+<div class="view-table employee-table">
+  <table class="table">
+      <thead class="thead-darks">
+          <tr class="text-start text-muted fw-bold fs-7 gs-0">
+              <th class="head min-w-75 w-75">Attendance ID</th>
+              <th class="head min-w-75 w-75">Employee Code</th>
+              <th class="head min-w-150 w-150">Employee Name</th>
+              <th class="head min-w-100 w-100">Checkin Time</th>
+              <th class="head min-w-100 w-100">Checkout Time</th>
+              <th class="head min-w-100 w-100">Total Time</th>
+              <th class="head min-w-100 w-100">Date</th>
+
+          </tr>
+      </thead>
+      <tbody>
+          {% for el in attendance_list %}
+          <tr>
+            <td class="text"><a style="color:inherit;" href="">{{ el.id }}</a></td>
+            <td class="text">{{ el.employee.emp_id }}</td>
+            <td class="text">{{ el.employee.first_name }}</td>
+            <!-- <td class="text">{{ el.checkin }}</td> -->
+            <td {% if el.checkin|date:"H:i" > "12:30" %} style="color:red"{% else %} style="color:green"{% endif %}>{{ el.checkin|date:"H:i" }}</td>
+            <td class="text">{{ el.checkout|time:"H:i" }}</td>
+            <td class="text">{{ el.difference }}</td>
+            <td class="text">{{ el.date }}</td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+</div>
+
+{% endblock content %}

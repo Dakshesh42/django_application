@@ -1,0 +1,50 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block msg %}
+    {% if messages %}
+    {% for message in messages %}
+    <div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissable fade show" {% endif %}> <strong>{{message}}</strong><button type="button" class="close" data-dismiss="alert" area-label="Close"><span area-hidden="True">&times;</span></button></div>
+    {% endfor %}
+    {% endif %}
+{% endblock msg %}
+{% block content %} 
+<br>
+{% if request.user.acc == True %}
+<div class="view-table">
+    <table class="table">
+        <thead class="thead-darks">
+          <tr>
+
+            <th scope="col">Task ID</th>
+            <th scope="col">Task Name</th>
+            <th scope="col">Project Name</th>
+            <th scope="col">Date</th>
+            <th scope="col">Hours Assigned</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for el in task_list %}
+          <tr>
+
+            <td class="text">{{ el.id }}</td>
+            <td class="text"><a style="color:inherit;" href="{% url 'edit-task' el.id %}">{{ el.name }}</a></td>
+            <td class="text">{{ el.project }}</td>
+            <td class="text">{{ el.date }}</td>
+            <td class="text">{{ el.display_duration }}</td>
+            <td class="text">
+              <form action="{% url 'delete-task' el.id %}" method="post" class="d-inline"> 
+                {% csrf_token %}
+                <input type="submit" class="btn btn-danger btn-sm" value="Delete">
+                
+              </form>
+            </td>
+      
+   
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+</div>
+{% endif %}
+    {% endblock content %}

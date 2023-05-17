@@ -1,0 +1,61 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block msg %}
+    {% if messages %}
+    {% for message in messages %}
+    <div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissable fade show" {% endif %}> <strong>{{message}}</strong><button type="button" class="close" data-dismiss="alert" area-label="Close"><span area-hidden="True">&times;</span></button></div>
+    {% endfor %}
+    {% endif %}
+{% endblock msg %}
+{% block content %} 
+<br>
+{% if request.user.hr == True %}
+<div class="view-table">
+    <table class="table">
+        <thead class="thead-darks">
+          <tr>
+
+            <th scope="col">Client ID</th>
+            <th scope="col">Client Name</th>
+            <th scope="col">Company Name</th>
+            <th scope="col">Contact Number</th>
+            <th scope="col">Email</th>
+            <th scope="col">Address</th>
+            <th scope="col">City</th>
+            <th scope="col">State</th>
+            <th scope="col">Country</th>
+            <th scope="col">View Contacts</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for el in client_list %}
+          <tr>
+
+            <td class="text">{{ el.id }}</td>
+            <td class="text"><a style="color:inherit;" href="{% url 'edit-client' el.id %}">{{ el.client_name }}</a></td>
+            <td class="text">{{ el.company_name }}</a></td>
+            <td class="text">{{ el.contact_number }}</td>
+            <td class="text">{{ el.email }}</td>
+            <td class="text">{{ el.address }}</td>
+            <td class="text">{{ el.city }}</td>
+            <td class="text">{{ el.state }}</td>
+            <td class="text">{{ el.get_country_display }}</td>
+            <td class="text"><a style="color:inherit;" href="{% url 'cli-con' el.id %}">Contact</a></td>
+
+
+            <td class="text">
+              <form action="{% url 'delete-client' el.id %}" method="post" class="d-inline"> 
+                {% csrf_token %}
+                <input type="submit" class="btn btn-danger btn-sm" value="Delete">
+                
+              </form>
+            </td>
+   
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+</div>
+{% endif %}
+    {% endblock content %}

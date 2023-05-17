@@ -1,0 +1,161 @@
+<div class="border-right border-warning h-100 sidebar-content">
+  <nav class="nav flex-column">
+    <!-- <li><a class="nav-link" aria-current="page" href="/">Home</a></li> -->
+    {% if request.user.is_authenticated %}
+    {% url 'employee-dashboard' as url %}
+    <li class="{% if request.path == url %}active{% endif %}"><a class="nav-link" href="{% url 'employee-dashboard' %}"><span class="svg-icon svg-icon-2">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="9" height="9" rx="2" fill="currentColor"></rect>
+          <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="currentColor"></rect>
+          <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="currentColor"></rect>
+          <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="currentColor"></rect>
+      </svg>
+  </span> Dashboard</a></li>
+
+
+    <div class="item">
+      <a class="sub-btn"> <span class="svg-icon svg-icon-2">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 19.725V18.725C20 18.125 19.6 17.725 19 17.725H5C4.4 17.725 4 18.125 4 18.725V19.725H3C2.4 19.725 2 20.125 2 20.725V21.725H22V20.725C22 20.125 21.6 19.725 21 19.725H20Z" fill="currentColor"></path>
+            <path opacity="0.3" d="M22 6.725V7.725C22 8.325 21.6 8.725 21 8.725H18C18.6 8.725 19 9.125 19 9.725C19 10.325 18.6 10.725 18 10.725V15.725C18.6 15.725 19 16.125 19 16.725V17.725H15V16.725C15 16.125 15.4 15.725 16 15.725V10.725C15.4 10.725 15 10.325 15 9.725C15 9.125 15.4 8.725 16 8.725H13C13.6 8.725 14 9.125 14 9.725C14 10.325 13.6 10.725 13 10.725V15.725C13.6 15.725 14 16.125 14 16.725V17.725H10V16.725C10 16.125 10.4 15.725 11 15.725V10.725C10.4 10.725 10 10.325 10 9.725C10 9.125 10.4 8.725 11 8.725H8C8.6 8.725 9 9.125 9 9.725C9 10.325 8.6 10.725 8 10.725V15.725C8.6 15.725 9 16.125 9 16.725V17.725H5V16.725C5 16.125 5.4 15.725 6 15.725V10.725C5.4 10.725 5 10.325 5 9.725C5 9.125 5.4 8.725 6 8.725H3C2.4 8.725 2 8.325 2 7.725V6.725L11 2.225C11.6 1.925 12.4 1.925 13.1 2.225L22 6.725ZM12 3.725C11.2 3.725 10.5 4.425 10.5 5.225C10.5 6.025 11.2 6.725 12 6.725C12.8 6.725 13.5 6.025 13.5 5.225C13.5 4.425 12.8 3.725 12 3.725Z" fill="currentColor"></path>
+        </svg>
+    </span> Manage User<i class="fas fa-angle-right dropdown"></i></a>
+    
+      <div class="sub-menu">
+        {% url 'employee-profile' as url %}
+        <div class="att-anch {% if request.path == url %}active{% endif %}">
+        <a href="{% url 'employee-profile' %}" class="sub-item">View Profile</a>
+        </div>
+
+        {% url 'my_attendance_record' as url %}
+        <div class="att-anch {% if request.path == url %}active{% endif %}">
+        <a href="{% url 'my_attendance_record' %}" class="sub-item">View Attendance</a>
+        </div>
+
+        {% url 'passwordchange' as url %}
+        <div class="att-anch {% if request.path == url %}active{% endif %}">
+        <a href="{% url 'passwordchange' %}" class="sub-item">Update Password</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="item">
+      <a class="sub-btn"> <span class="svg-icon svg-icon-2">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13.0021 10.9128V3.01281C13.0021 2.41281 13.5021 1.91281 14.1021 2.01281C16.1021 2.21281 17.9021 3.11284 19.3021 4.61284C20.7021 6.01284 21.6021 7.91285 21.9021 9.81285C22.0021 10.4129 21.5021 10.9128 20.9021 10.9128H13.0021Z" fill="currentColor"></path>
+            <path opacity="0.3" d="M11.0021 13.7128V4.91283C11.0021 4.31283 10.5021 3.81283 9.90208 3.91283C5.40208 4.51283 1.90209 8.41284 2.00209 13.1128C2.10209 18.0128 6.40208 22.0128 11.3021 21.9128C13.1021 21.8128 14.7021 21.3128 16.0021 20.4128C16.5021 20.1128 16.6021 19.3128 16.1021 18.9128L11.0021 13.7128Z" fill="currentColor"></path>
+            <path opacity="0.3" d="M21.9021 14.0128C21.7021 15.6128 21.1021 17.1128 20.1021 18.4128C19.7021 18.9128 19.0021 18.9128 18.6021 18.5128L13.0021 12.9128H20.9021C21.5021 12.9128 22.0021 13.4128 21.9021 14.0128Z" fill="currentColor"></path>
+        </svg>
+    </span> IPS<i class="fas fa-angle-right dropdown"></i></a>
+      <div class="sub-menu">
+        {% url 'add-ips' as url %}
+        <div class="att-anch {% if request.path == url %}active{% endif %}">
+          <a href="{% url 'add-ips' %}" class="sub-item">Add Today's Tasks</a>
+        </div>
+        {% url 'view-ips' as url %}
+        <div class="att-anch {% if request.path == url %}active{% endif %}">
+          <a href="{% url 'view-ips' %}" class="sub-item">View Previous Tasks</a>
+        </div>
+      </div>
+    </div>
+    {% comment %} <li><a class="nav-link" href="/logout/">Logout</a></li> {% endcomment %}
+    {% else %}
+    <li><a class="nav-link active" href="/login/">Login</a></li>
+    {% endif %}
+
+    {% if request.user.hr == True %}
+    <div class="item">
+      <a class="sub-btn"> <span class="svg-icon svg-icon-2">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6.28548 15.0861C7.34369 13.1814 9.35142 12 11.5304 12H12.4696C14.6486 12 16.6563 13.1814 17.7145 15.0861L19.3493 18.0287C20.0899 19.3618 19.1259 21 17.601 21H6.39903C4.87406 21 3.91012 19.3618 4.65071 18.0287L6.28548 15.0861Z" fill="currentColor"></path>
+            <rect opacity="0.3" x="8" y="3" width="8" height="8" rx="4" fill="currentColor"></rect>
+        </svg>
+    </span> Employee<i class="fas fa-angle-right dropdown"></i></a>
+      <div class="sub-menu">
+        {% url 'add-employee' as url %}
+        <div class="att-anch {% if request.path == url %}active{% endif %}">
+          <a href="{% url 'add-employee' %}" class="sub-item">Add Employee</a>
+        </div>
+        {% url 'view-employee' as url %}
+        <div class="att-anch {% if request.path == url %}active{% endif %}">
+          <a href="{% url 'view-employee' %}" class="sub-item">View Employee</a>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if request.user.acc == True %}
+    <div class="item">
+      <a class="sub-btn"> <i class="fa fa-user-md" aria-hidden="true"></i> Client<i class="fas fa-angle-right dropdown"></i></a>
+      <div class="sub-menu">
+        {% url 'add-client' as url %}
+        <div class="att-anch {% if request.path == url %}active{% endif %}">
+          <a href="{% url 'add-client' %}" class="sub-item">Add Client</a>
+        </div>
+        {% url 'add-client-contact' as url %}
+        <div class="att-anch {% if request.path == url %}active{% endif %}">
+          <a href="{% url 'add-client-contact' %}" class="sub-item">Add Client Contact</a>
+        </div>
+        {% url 'view-client' as url %}
+        <div class="att-anch {% if request.path == url %}active{% endif %}">
+          <a href="{% url 'view-client' %}" class="sub-item">View Client</a>
+        </div>
+        {% url 'view-client-contact' as url %}
+        <div class="att-anch {% if request.path == url %}active{% endif %}">
+          <a href="{% url 'view-client-contact' %}" class="sub-item">View Client Contact</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="item">
+      <a class="sub-btn"> <i class="fa fa-file-video-o" aria-hidden="true"></i> Project<i class="fas fa-angle-right dropdown"></i></a>
+      <div class="sub-menu">
+        {% url 'add-project' as url %}
+        <div class="att-anch {% if request.path == url %}active{% endif %}">
+          <a href="{% url 'add-project-milestone' %}" class="sub-item">Add Project</a>
+        </div>
+        {% url 'view-project' as url %}
+        <div class="att-anch {% if request.path == url %}active{% endif %}">
+          <a href="{% url 'view-project' %}" class="sub-item">View Project</a>
+        </div>
+        {% url 'add-resource' as url %}
+        <div class="att-anch {% if request.path == url %}active{% endif %}">
+          <a href="{% url 'add-resource' %}" class="sub-item">Assign Resource</a>
+        </div>
+        {% url 'view-resource' as url %}
+        <div class="att-anch {% if request.path == url %}active{% endif %}">
+          <a href="{% url 'view-resource' %}" class="sub-item">View Resource</a>
+        </div>
+      </div>
+    </div>
+
+    {% comment %} <div class="item">
+      <a class="sub-btn">Task<i class="fas fa-angle-right dropdown"></i></a>
+      <div class="sub-menu">
+        <a href="{% url 'add-task' %}" class="sub-item">Add Task</a>
+        <a href="{% url 'view-task' %}" class="sub-item">View Task</a>
+      </div>
+    </div> {% endcomment %}
+
+    {% url 'attendance_form' as url %}
+    <li class="att-anch {% if request.path == url %}active{% endif %}"><a class="nav-link" href="{% url 'attendance_form' %}"> <i class="fa fa-filter" aria-hidden="true"></i> Attendance Filter</a></li>
+
+    {% comment %} <li><a class="nav-link" href="{% url 'task-hours-view' %}">Emp wise Report</a></li> {% endcomment %}
+    {% url 'attendance_record' as url %}
+
+      <li class="att-anch {% if request.path == url %}active{% endif %}"><a class="nav-link" href="{% url 'attendance_record' %}"> <i class="fa fa-eye" aria-hidden="true"></i>View All Attendance</a></li>
+
+    {% url 'view-ips-all' as url %}
+    
+      <li class="att-anch {% if request.path == url %}active{% endif %}"><a class="nav-link" href="{% url 'view-ips-all' %}"> <i class="fa fa-tasks " aria-hidden="true"></i> View All IPS</a></li>
+    
+    {% url 'add-menu' as url %}
+    
+      <li class="att-anch {% if request.path == url %}active{% endif %}"><a class="nav-link" href="{% url 'add-menu' %}"> <i class="fa fa-tasks " aria-hidden="true"></i> Manage NDA </a></li>
+    
+    
+    {% endif %}
+  </nav>
+</div>
+
+

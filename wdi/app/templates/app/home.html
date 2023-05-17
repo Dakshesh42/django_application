@@ -1,0 +1,70 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block msg %}
+    {% if messages %}
+    {% for message in messages %}
+    <div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissable fade show" {% endif %}> <strong>{{message}}</strong><button type="button" class="close" data-dismiss="alert" area-label="Close"><span area-hidden="True">&times;</span></button></div>
+    {% endfor %}
+    {% endif %}
+{% endblock msg %}
+{% block content %} 
+<main>
+    <div class="jumbotron jumbo-color">
+      <div class="container">
+        <h1 class="display-6">Welcome to WDIPL!</h1>
+        <p class="text-bold text-dark ">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est facere odit odio totam laborum, enim quae. Praesentium, ex fugiat iste, reprehenderit numquam a beatae, commodi amet voluptatem provident eaque harum quia aliquid. Minima ducimus quae aliquam ea, labore minus provident nostrum delectus numquam voluptate velit a perspiciatis. Magnam quae assumenda modi nam blanditiis tempore? Necessitatibus sequi animi dolor aperiam illo nesciunt corrupti unde perspiciatis obcaecati quibusdam pariatur, deserunt odit at asperiores, fuga quas optio odio? Libero officia optio quia inventore quisquam ad et maxime asperiores iste a reiciendis ullam unde quo vitae, nulla perferendis quos. Repellendus aliquam nulla odio. Ratione!</p>
+        <p><a class="btn btn-primary login-btn mt-2" href="login/" role="button">Login &raquo;</a></p>
+      </div> 
+    </div>
+
+   </main>
+<!-- 
+   <table class="table">
+    <thead class="thead-dark">
+      <tr>
+
+        <th scope="col">Employee ID</th>
+        <th scope="col">Employee Code</th>
+        <th scope="col">Employee Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Gender</th>
+        <th scope="col">Date of Birth</th>
+        <th scope="col">Date of Joining</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Qualification</th>
+        <th scope="col">Address</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for el in employee_list %}
+      <tr>
+
+        <td class="text-white font-weight-bold">{{ el.id }}</td>
+        <td class="text-white font-weight-bold">{{ el.emp_code }}</td>
+        <td class="text-white font-weight-bold"><a style="color:inherit;" href="{% url 'edit-employee' el.id %}">{{ el.name }}</a></td>
+        <td class="text-white font-weight-bold">{{ el.email }}</td>
+        <td class="text-white font-weight-bold">{{ el.gender }}</td>
+        <td class="text-white font-weight-bold">{{ el.date_of_birth }}</td>
+        <td class="text-white font-weight-bold">{{ el.joining_date }}</td>
+        <td class="text-white font-weight-bold">{{ el.phone }}</td>
+        <td class="text-white font-weight-bold">{{ el.qualification }}</td>
+        <td class="text-white font-weight-bold">{{ el.address }}</td>
+        <td class="text-center">
+          <button class="btn btn-info btn-sm"><a style="color: inherit;" href="{% url 'edit-employee' el.id %}">Edit Employee</a></button>
+          <form action="{% url 'delete-employee' el.id %}" method="post" class="d-inline"> 
+            {% csrf_token %}
+            <input type="submit" class="btn btn-danger btn-sm" value="Delete">
+            
+          </form>
+        </td>
+  
+
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table> -->
+  <footer class="">
+    <p>&copy; Company 2022-2023</p>
+  </footer>
+{% endblock content %}

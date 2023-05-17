@@ -1,0 +1,50 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block msg %}
+    {% if messages %}
+    {% for message in messages %}
+    <div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissable fade show" {% endif %}> <strong>{{message}}</strong><button type="button" class="close" data-dismiss="alert" area-label="Close"><span area-hidden="True">&times;</span></button></div>
+    {% endfor %}
+    {% endif %}
+{% endblock msg %}
+{% block content %} 
+<br>
+<h3>All Sprints</h3>
+<div class="view-table">
+    <table class="table">
+        <thead class="thead-darks">
+          <tr>
+
+            <th scope="col">Sprint ID</th>
+            <th scope="col">Sprint Name</th>
+            <th scope="col">Project Name</th>
+            <th scope="col">Milestone Name</th>
+            <th scope="col">Hours</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for el in spr_list %}
+          <tr>
+
+            <td class="text">{{ el.id }}</td>
+            <td class="text"><a style="color:inherit;" href="{% url 'edit-sprint' el.id %}">{{ el.name }}</a></td>
+            <td class="text">{{ el.milestone.project }}</td>
+            <td class="text">{{ el.milestone }}</td>
+            <td class="text">{{ el.display_duration }}</td>
+            <td class="text">
+              <form action="{% url 'delete-sprint' el.id %}" method="post" class="d-inline"> 
+                {% csrf_token %}
+                <input type="submit" class="btn btn-danger btn-sm" value="Delete">
+                
+              </form>
+            </td>
+      
+   
+          </tr>
+          
+        </tbody>
+      </table>
+</div>
+{% endif %}
+    {% endblock content %}

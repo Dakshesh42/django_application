@@ -1,0 +1,22 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block msg %}
+    {% if messages %}
+    {% for message in messages %}
+    <div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissable fade show" {% endif %}> <strong>{{message}}</strong><button type="button" class="close" data-dismiss="alert" area-label="Close"><span area-hidden="True">&times;</span></button></div>
+    {% endfor %}
+    {% endif %}
+{% endblock msg %}
+{% block content %} 
+<div class="col-6">
+    <p>Client Contact ID :{{ con.id }}</p>
+    {% if request.user.acc == True %}
+    <form id="editprojectform" method="POST" action="">
+        {% csrf_token%}
+        {{ form }}
+        <br>
+        <input class="btn btn-secondary" type="submit" name="submit" value="Update Client Contact"/>
+    </form>
+    {% endif %}
+</div>
+{% endblock content %} 

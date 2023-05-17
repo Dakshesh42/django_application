@@ -1,0 +1,103 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block msg %}
+    {% if messages %}
+    {% for message in messages %}
+    <div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissable fade show" {% endif %}> <strong>{{message}}</strong><button type="button" class="close" data-dismiss="alert" area-label="Close"><span area-hidden="True">&times;</span></button></div>
+    {% endfor %}
+    {% endif %}
+{% endblock msg %}
+{% block content %} 
+<h3 class="mt-4">Edit Employee</h3>
+<div class="jumbotron jumbo-color ">
+    <div class="edit-emply container">
+      <p>Employee ID :{{ emp.emp_sid }}</p>
+      {% if request.user.hr == True %}
+      <form method="POST" enctype="multipart/form-data" action="">
+        {% csrf_token%}
+        {% for fm in form %}
+        <div class="form-group">
+            {{ fm.label_tag }}
+            {{ fm }}
+            {{ fm.errors|striptags }}
+        </div>
+        {% endfor %}
+        {% if form.non_field_errors %}
+          {% for error in form.non_field_errors %}
+          <p class="alert alert-danger my-3">{{ error }}</p>
+          {% endfor %}
+          {% endif %}
+          <input class="btn btn-secondary login-btn" type="submit" value="Update Employee"/>
+      </form>
+      {% endif %}
+  </div>
+</div>
+<!-- <br>
+   
+    
+
+
+    <br>
+    <div style="margin-left: -8rem;">
+        <p>subtasks:</p>
+        <table class="table">
+            <thead class="thead-dark">
+              <tr>
+    
+                <th scope="col">Item ID</th>
+                <th scope="col">User</th>
+                <th scope="col">Task Name</th>
+                <th scope="col">Item Name</th>
+                <th scope="col">Imprint Method</th>
+                <th scope="col">Imprint Color</th>
+                <th scope="col">Product Color</th>
+                <th scope="col">Imprint Location</th>
+                <th scope="col">Imprint Instructions</th>
+                <th scope="col">Submitted File</th>
+                <th scope="col">Completed File</th>
+                <th scope="col">Comments</th>
+                <th scope="col">Date Created</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for tl in task.item_set.all %}
+              <tr>
+    
+                <td class="text-white font-weight-bold">{{ tl.id }}</td>
+                <td class="text-white font-weight-bold">{{ tl.user }}</td>
+                <td class="text-white font-weight-bold"><a style="color: inherit;" href="{% url 'edit-task' tl.task.id %}">{{ tl.task.task_name }}</a></td>
+                <td class="text-white font-weight-bold"><a style="color: inherit;" href="{% url 'edit-item' tl.id %}">{{ tl.item_name }}</a></td>
+                <td class="text-white font-weight-bold">{{ tl.imprint_method }}</td>
+                <td class="text-white font-weight-bold">{{ tl.imprint_color }}</td>
+                <td class="text-white font-weight-bold">{{ tl.product_color }}</td>
+                <td class="text-white font-weight-bold">{{ tl.imprint_location }}</td>
+                <td class="text-white font-weight-bold">{{ tl.imprint_instructions }}</td>
+                <td class="text-white font-weight-bold">{{ tl.submitted_file }}</td>
+                <td class="text-white font-weight-bold">{{ tl.completed_file }}</td>
+                <td class="text-white font-weight-bold">{{ tl.comments }}</td>
+                <td class="text-white font-weight-bold">{{ tl.date_created }}</td>
+                <td class="text-white font-weight-bold">{{ tl.status }}</td>
+                <td class="text-center">
+                  <form action="{% url 'delete-item' tl.id %}" method="post" class="d-inline"> 
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-danger btn-sm" value="Delete">
+                  </form>
+                </td>
+          
+       
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>-->
+
+    <script>
+      $(document).ready(function () {
+          // Remove fields and labels
+          $('div#id_password').parent().remove();
+        });
+    </script>
+
+    {% endblock content %} 

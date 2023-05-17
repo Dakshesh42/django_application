@@ -1,0 +1,49 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block msg %}
+    {% if messages %}
+    {% for message in messages %}
+    <div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissable fade show" {% endif %}> <strong>{{message}}</strong><button type="button" class="close" data-dismiss="alert" area-label="Close"><span area-hidden="True">&times;</span></button></div>
+    {% endfor %}
+    {% endif %}
+{% endblock msg %}
+{% block content %} 
+<br>
+{% if request.user.hr == True %}
+<div>
+    <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Employee Name</th>
+            <th scope="col">Picture</th>
+            <th scope="col">Resume</th>
+            <th scope="col">Education Certificate</th>
+            <th scope="col">Identity Proof</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for el in employee_profile_list %}
+          <tr>
+
+            <td class="text-white font-weight-bold"><a style="color:inherit;" href="{% url 'edit-employee-profile' el.id %}">{{ el.details.employee.name }}</a></td>
+            <td class="text-white font-weight-bold">{{ el.picture }}</td>
+            <td class="text-white font-weight-bold">{{ el.resume }}</td>
+            <td class="text-white font-weight-bold">{{ el.edu_docs }}</td>
+            <td class="text-white font-weight-bold">{{ el.identity_docs }}</td>
+            <td class="text-center">
+              <form action="{% url 'delete-employee-profile' el.id %}" method="post" class="d-inline"> 
+                {% csrf_token %}
+                <input type="submit" class="btn btn-danger btn-sm" value="Delete">
+                
+              </form>
+            </td>
+      
+   
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+</div>
+{% endif %}
+    {% endblock content %}

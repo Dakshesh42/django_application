@@ -1,0 +1,91 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block msg %}
+{% if messages %}
+{% for message in messages %}
+<div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissable fade show" {% endif %}>
+    <strong>{{message}}</strong><button type="button" class="close" data-dismiss="alert" area-label="Close"><span
+            area-hidden="True">&times;</span></button></div>
+{% endfor %}
+{% endif %}
+{% endblock msg %}
+{% block content %}
+<h4>Add Today's Tasks</h4>
+<div class="login-sec">
+    <div class="login-page loginpage loginpage112">
+        {% if request.user.is_authenticated %}
+        <form method="POST" action="">
+            {% csrf_token%}
+            {% for fm in form %}
+            <div class="form-group">
+                {{ fm.label_tag }}
+                <div class="formselect-inner">
+                {{ fm }}
+                
+                </div>
+                {% comment %} {{ fm.errors|striptags }} {% endcomment %}
+            </div>
+            {% endfor %}
+            {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+            <p class="alert alert-danger my-3">{{error}}</p>
+            {% endfor %}
+            {% endif %}
+        
+            <input class="button login-btn" type="submit" name="Add Ips"/>
+        </form>
+        
+        {% comment %} <form method="POST" action="">
+            {% csrf_token%}
+            {% for fm in form %}
+            <div class="form-group">
+                {{ fm.label_tag }}
+                {{ fm }}
+                {{ fm.errors|striptags }}
+            </div>
+            {% endfor %}
+            {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+            <p class="alert alert-danger my-3">{{error}}</p>
+            {% endfor %}
+            {% endif %}                   
+            <input class="button login-btn" type="submit" name="Add Ips"/>
+        </form> {% endcomment %}
+        {% endif %}
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+  // Get the assigned projects for the logged-in employee via AJAX
+  $.ajax({
+      url: '/get_assigned_projects/',
+      type: 'GET',
+      dataType: 'json',
+      success: function(data) {
+          // console.log("DATA: ",data)
+          var assigned_projects = data.assigned_projects
+          var project_field = $('#ip_pro');
+          project_field.empty(); // clear the current options
+          // If there are assigned projects, populate the project field
+          if (assigned_projects.length > 0) {
+              var project_field = $('#ip_pro');
+            //   console.log("project_field: ",project_field);
+              project_field.empty();
+              $.each(data.assigned_projects, function(index, project) {
+                //   console.log("index",index);
+                //   console.log("value",project);
+                  // project_field.append($('<option value="">').text(project.project_name).attr('project', project.id));
+                  project_field.append(`<option value="${project.id}"> ${project.project_name}</option>`)
+              });
+          } else {
+            project_field.append(`<option value="">--------</option>`)
+            console.log("Else Part...");
+          }
+      },
+      error: function(xhr, status, error) {
+          console.error(error);
+      }
+  });
+});
+</script>
+{% endblock content %}

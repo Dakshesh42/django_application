@@ -1,0 +1,207 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block msg %}
+    {% if messages %}
+    {% for message in messages %}
+    <div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissable fade show" {% endif %}> <strong>{{message}}</strong><button type="button" class="close" data-dismiss="alert" area-label="Close"><span area-hidden="True">&times;</span></button></div>
+    {% endfor %}
+    {% endif %}
+{% endblock msg %}
+{% block content %} 
+<br>
+{% if request.user.hr == True %}
+ 
+<h3>Employee List</h3>
+<div class="view-table employee-table">
+  <table id="table_emp-list" class="display">
+      <thead class="thead-darks">
+          <tr class="text-start text-muted fw-bold fs-7 gs-0">
+              <th class="head min-w-75 w-75">Emp Code</th>
+              <th class="head min-w-150 w-150">First Name</th>
+              <th class="head min-w-150 w-150">L  ast Name</th>
+              <th class="head min-w-100 w-100">Email</th>
+              {% comment %} <th class="head min-w-100 w-100">Gender</th> {% endcomment %}
+              <th class="head min-w-100 w-100">DOB</th>
+              {% comment %} <th class="head min-w-100 w-100">Date of Joining</th> {% endcomment %}
+              <th class="head min-w-100 w-100">Mobile No.</th>
+              <th class="head min-w-100 w-100">Designation</th>
+              {% comment %} <th class="head min-w-100 w-100">Qualification</th> {% endcomment %}
+
+
+              {% comment %} <th class="head min-w-250 w-250">Address</th> {% endcomment %}
+              {% comment %} <th class="head min-w-100 w-100">CTC</th> {% endcomment %}
+              {% comment %} <th class="head min-w-100 w-100">Resume</th> {% endcomment %}
+              {% comment %} <th class="head min-w-100 w-100">Photo</th> {% endcomment %}
+              {% comment %} <th class="head min-w-100 w-100">Edu Docs</th> {% endcomment %}
+              {% comment %} <th class="head min-w-100 w-100">Aadhar</th> {% endcomment %}
+              {% comment %} <th class="head min-w-100 w-100">Pan</th> {% endcomment %}
+              {% comment %} <th class="head min-w-100 w-100">Certificate</th> {% endcomment %}
+              {% comment %} <th class="head min-w-100 w-100">Additional Certificate</th> {% endcomment %}
+              <th class="head min-w-100 w-100 text-center">Action</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for el in employee_list %}
+          <tr>
+            <td class="text">{{ el.emp_id }}</td>
+            <td class="text"><a style="color:inherit;" href="{% url 'edit-employee' el.id %}">{{ el.first_name }}</a></td>
+            <td class="text"><a style="color:inherit;" href="{% url 'edit-employee' el.id %}">{{ el.last_name }}</a></td>
+            <td class="text">{{ el.email }}</td>
+            {% comment %} <td class="text">{{ el.gender }}</td> {% endcomment %}
+            <td class="text">{{ el.date_of_birth }}</td>
+            {% comment %} <td class="text">{{ el.joining_date }}</td> {% endcomment %}
+            <td class="text">{{ el.phone }}</td>
+            <td class="text">{{ el.designation }}</td>
+            {% comment %} <td class="text">{{ el.qualification }}</td> {% endcomment %}
+            
+            {% comment %} <td class="text">{{ el.address }}</td> {% endcomment %}
+            {% comment %} <td class="text">{{ el.ctc }}</td> {% endcomment %}
+            {% comment %} <td class="text">
+              {% if el.resume %}
+              <a href="{{ el.resume.url }}" class=" view-color-dark" target="_blank">View</a>
+              {% else %}
+              <span class="text-muted">---</span>
+              {% endif %}
+            </td>
+            <td class="text">
+              {% if el.picture %}
+              <a href="{{ el.picture.url }}" class="view-color-dark" target="_blank">View</a>
+              {% else %}
+              <span class="text-muted">---</span>
+              {% endif %}
+            </td>
+            <td class="text">
+              {% if el.edu_docs %}
+              <a href="{{ el.edu_docs.url }}" class="view-color-dark" target="_blank">View</a>
+              {% else %}
+              <span class="text-muted">---</span>
+              {% endif %}
+            </td>
+            <td class="text">
+              {% if el.aadhar %}
+              <a href="{{ el.aadhar.url }}" class="view-color-dark" target="_blank">View</a>
+              {% else %}
+              <span class="text-muted">---</span>
+              {% endif %}
+            </td>
+            <td class="text">
+              {% if el.pan %}
+              <a href="{{ el.pan.url }}" class="view-color-dark" target="_blank">View</a>
+              {% else %}
+              <span class="text-muted">---</span>
+              {% endif %}
+            </td>
+            <td class="text">
+              {% if el.certificate %}
+              <a href="{{ el.certificate.url }}" class="view-color-dark" target="_blank">View</a>
+              {% else %}
+              <span class="text-muted">---</span>
+              {% endif %}
+            </td>
+            <td class="text">
+              {% if el.additional_certificate %}
+              <a href="{{ el.additional_certificate.url }}" class="view-color-dark" target="_blank">View</a>
+              {% else %}
+              <span class="text-muted">---</span>
+              {% endif %}
+            </td> {% endcomment %}
+            
+            <td class="text formview">
+              {% comment %} <form action="{% url 'delete-employee' el.id %}" method="post" class="d-inline "> 
+                {% csrf_token %} {% endcomment %}
+                <a href="{% url 'employee-details' el.id %}" class="submit-view">
+                  <span class="svg-icon svg-icon-3 green">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"></path>
+                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"></path>
+                    </svg>
+                </span>
+                </a>
+                
+                <a href="#" onclick="document.getElementById('delete-employee-{{ el.id }}').submit()">
+                  <span class="svg-icon svg-icon-3 red">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 9C5 8.44772 5.44772 8 6 8H18C18.5523 8 19 8.44772 19 9V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V9Z" fill="currentColor"></path>
+                    <path opacity="0.5" d="M5 5C5 4.44772 5.44772 4 6 4H18C18.5523 4 19 4.44772 19 5V5C19 5.55228 18.5523 6 18 6H6C5.44772 6 5 5.55228 5 5V5Z" fill="currentColor"></path>
+                    <path opacity="0.5" d="M9 4C9 3.44772 9.44772 3 10 3H14C14.5523 3 15 3.44772 15 4V4H9V4Z" fill="currentColor"></path>
+                    </svg>
+                </span>
+                </a>
+                
+                <form id="delete-employee-{{ el.id }}" action="{% url 'delete-employee' el.id %}" method="post"> 
+                  {% csrf_token %}
+                </form>
+                
+
+                
+                {% comment %} <input type="submit" class="btn btn-danger btn-sm" value="Delete"> {% endcomment %}
+                
+              {% comment %} </form> {% endcomment %}
+            </td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+</div>
+
+
+    <!-- <table class="table">
+        <thead class="thead-dark">
+          <tr>
+
+            <th scope="col">Employee Code</th>
+            <th scope="col">Employee Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Gender</th>
+            <th scope="col">Date of Birth</th>
+            <th scope="col">Date of Joining</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Qualification</th>
+            <th scope="col">Address</th>
+            <th scope="col">CTC</th>
+            <th scope="col">Resume</th>
+            <th scope="col">Picture</th>
+            <th scope="col">Edu Docs</th>
+            <th scope="col">Aadhar</th>
+            <th scope="col">Pan</th>
+            <th scope="col">Certificate</th>
+            <th scope="col">Additional Certificate</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for el in employee_list %}
+          <tr>
+
+            <td class="text-white font-weight-bold">{{ el.emp_id }}</td>
+            <td class="text-white font-weight-bold"><a style="color:inherit;" href="{% url 'edit-employee' el.id %}">{{ el.name }}</a></td>
+            <td class="text-white font-weight-bold">{{ el.email }}</td>
+            <td class="text-white font-weight-bold">{{ el.gender }}</td>
+            <td class="text-white font-weight-bold">{{ el.date_of_birth }}</td>
+            <td class="text-white font-weight-bold">{{ el.joining_date }}</td>
+            <td class="text-white font-weight-bold">{{ el.phone }}</td>
+            <td class="text-white font-weight-bold">{{ el.qualification }}</td>
+            <td class="text-white font-weight-bold">{{ el.address }}</td>
+            <td class="text-white font-weight-bold">{{ el.ctc }}</td>
+            <td class="text-white font-weight-bold">{{ el.resume }}</td>
+            <td class="text-white font-weight-bold">{{ el.picture }}</td>
+            <td class="text-white font-weight-bold">{{ el.edu_docs }}</td>
+            <td class="text-white font-weight-bold">{{ el.aadhar }}</td>
+            <td class="text-white font-weight-bold">{{ el.pan }}</td>
+            <td class="text-white font-weight-bold">{{ el.certificate }}</td>
+            <td class="text-white font-weight-bold">{{ el.additional_certificate }}</td>
+            <td class="text-center">
+              <form action="{% url 'delete-employee' el.id %}" method="post" class="d-inline"> 
+                {% csrf_token %}
+                <input type="submit" class="btn btn-danger btn-sm" value="Delete">
+                
+              </form>
+            </td>
+      
+   
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table> -->
+{% endif %}
+    {% endblock content %}

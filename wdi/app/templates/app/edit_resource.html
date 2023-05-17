@@ -1,0 +1,36 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block msg %}
+    {% if messages %}
+    {% for message in messages %}
+    <div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissable fade show" {% endif %}> <strong>{{message}}</strong><button type="button" class="close" data-dismiss="alert" area-label="Close"><span area-hidden="True">&times;</span></button></div>
+    {% endfor %}
+    {% endif %}
+{% endblock msg %}
+{% block content %} 
+<br>
+
+<div class="row" >
+    <h2 id="remaining-hours-message"></h2>
+</div>
+<div class="col-6">
+    <br>
+    <p>Resource ID :{{ resource.id }}</p>
+    {% if request.user.acc == True %}
+    <form id="resourceform" method="POST" action="">
+        {% csrf_token%}
+        {{ form }}
+        <br>
+        <input class="btn btn-secondary" type="submit" name="submit" value="Update Resource"/>
+    </form>
+    {% endif %}
+</div>
+<script>
+    $(document).ready(function() {
+      var h = '{{ h }}';
+      var m_h = '{{ m_h }}';
+      $('#id_hours').val(h);
+      $('#id_max_hours').val(m_h);
+    });
+</script>
+{% endblock content %} 

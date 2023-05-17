@@ -1,0 +1,50 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block msg %}
+    {% if messages %}
+    {% for message in messages %}
+    <div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissable fade show" {% endif %}> <strong>{{message}}</strong><button type="button" class="close" data-dismiss="alert" area-label="Close"><span area-hidden="True">&times;</span></button></div>
+    {% endfor %}
+    {% endif %}
+{% endblock msg %}
+{% block content %} 
+
+{% if request.user.is_authenticated %}
+<div class="t_height">
+<h4>View Previous Tasks</h4>
+<div class="view-table">
+    <table id="table_view-prev-task" class="display">
+        <thead class="thead-darks">
+          <tr>
+
+            <th scope="col">IPS ID</th>
+            <th scope="col">Emp Name</th>
+            <th scope="col">Project Name</th>
+            <th scope="col">Task Name</th>
+            <th scope="col">Hours</th>
+            <th scope="col">Submitted At:</th>
+            <th scope="col">Comments</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for el in ips_list %}
+          <tr>
+
+            <td class="text">{{ el.id }}</td>
+            <td class="text">{{ el.employee.first_name }}</td>
+            <td class="text">{{ el.project }}</td>
+            <td class="text">{{ el.task }}</td>
+            <td class="text">{{ el.hours }}</td>
+            <td class="text">{{ el.date }}</td>
+            <td class="text">{{ el.comments }}</td>
+            
+      
+   
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+</div>
+</div>
+{% endif %}
+{% endblock content %}

@@ -1,0 +1,83 @@
+
+<!-- 
+We start the HTML with the footer element, this will be seen on all pages except the first/cover page. 
+To make sure the running element is shown on all these pages and not only the first, we need to place
+it as first element in our HTML.
+-->
+<footer class="menuPagesFooter">
+  <div>
+    <b>Website</b> <a href="http://cmswdipl.com">cmswdipl.com</a>
+    <br />
+    <b>Phone</b> 123.456.7890
+  </div>
+  <div>
+    <b>Hours</b>
+    <span>
+      Mon-Fri 11am to 9pm
+      <br />
+      Sat &amp; Sun : Closed!
+    </span>
+  </div>
+  <div>
+    <b>Address</b>
+    <span>
+      614 Palm Springs Malad West
+      <br />
+      Mumbai, IN 400 064
+    </span>
+  </div>
+</footer>
+
+<!--
+The HEADER element functions as cover page, showing an image (via CSS) and the 
+Logo + Restaurant Name.
+-->
+<header class="coverPage">
+  <h1>Restaurant WDI&MAD</h1>
+</header>
+
+<!--
+All following menu pages are within the MAIN element. Each section in the menu is 
+also having a own section here, we do so via the SECTION HTML tag.
+-->
+<main class="menuPages">
+  
+  <!--
+  The last section has the special items of the food menu. 
+  This section will be styled differently via CSS and therefore needs
+  an extra class.
+  -->
+  <section class="specialItems">
+    <h1> Specials Headers </h1>
+    <div class="sectionContent">
+      <div class="images">
+        <span class="img08"></span>
+        <span class="img09"></span>
+      </div>
+      <div class="items">
+        <ul>
+          <li>
+            <h3> {{ item_1 }} <span class="price">${{ price_item_1 }}</span></h3>
+            <i>Morbi euismod scelerisque pellentesque. Aliquam quis semper nisi.</i>
+          </li>
+          <li>
+            <h3> {{ item_2 }} <span class="price">${{ price_item_2 }}</span></h3>
+            <i>Morbi euismod scelerisque pellentesque. Morbi euismod scelerisque pellentesque. Aliquam quis semper nisi.</i>
+          </li>
+          <li>
+            <h3> {{ item_3 }} <span class="price">${{ price_item_3 }}</span></h3>
+            <i>Morbi euismod scelerisque pellentesque.</i>
+          </li>
+          <li>
+            <h3> {{ item_4 }} <span class="price">${{ price_item_4 }}</span></h3>
+            <i>Morbi euismod scelerisque pellentesque.</i>
+          </li>
+        </ul>
+        <div class="note">
+          <h3>*Note about these menu items</h3>
+          <i>Morbi euismod scelerisque pellentesque. Aliquam quis semper nisi.</i>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

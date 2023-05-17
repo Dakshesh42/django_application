@@ -1,0 +1,161 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block msg %}
+    {% if messages %}
+    {% for message in messages %}
+    <div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissable fade show" {% endif %}> <strong>{{message}}</strong><button type="button" class="close" data-dismiss="alert" area-label="Close"><span area-hidden="True">&times;</span></button></div>
+    {% endfor %}
+    {% endif %}
+{% endblock msg %}
+
+{% block content %} 
+<h2>Profile</h2>
+<section class="jumbotron jumbo-color">
+    <div class="container">
+        <div class="col-md-12 col-sm-12 profile-details">
+            <div class="card-body ">
+                <div class="align-items-center">
+                    <div class="profile-img text-center">
+                        {% if emp.picture %}
+                        <img src="{{emp.picture.url}}" alt="" height="250" width="300">
+                        {% else %}
+                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="...">
+                        {% endif %}
+                    </div>
+                    <div class="desi-name text-center mt-4">
+                        <h3 class="text-name">{{ emp.first_name }}</h3>
+                        <h3 class="text-desig">{{ emp.designation }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+        <div class="row">
+        
+            <div class="col-md-6 col-sm-12">
+                    {% comment %} <h2 class="section-title datails mb-4">Details</h2> {% endcomment %}
+                    <div class="progress-text">
+                        <div class="row">
+                            <div class="col-3">Emp ID:</div>
+                            <div class="col-7 details">{{ emp.emp_id }}</div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="progress-text">
+                        <div class="row">
+                            <div class="col-3">Email:</div>
+                            <div class="col-7 details">{{ emp.email }}</div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="progress-text">
+                        <div class="row">
+                            <div class="col-3">Mobile No.:</div>
+                            <div class="col-7 details">{{ emp.phone }}</div>
+                        </div>
+                    </div>
+                     <br>
+                    <div class="progress-text">
+                        <div class="row">
+                            <div class="col-3">Qualification:</div>
+                            <div class="col-7 details">{{ emp.qualification }}</div>
+                        </div>
+                    </div>                  
+
+                    <br>
+                    <div class="progress-text">
+                        <div class="row">
+                            <div class="col-3">DOB:</div>
+                            <div class="col-7 details">{{ emp.date_of_birth }}</div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="progress-text">
+                        <div class="row">
+                            <div class="col-3">Joining Date:</div>
+                            <div class="col-7 details">{{ emp.joining_date }}</div>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+             
+
+
+               <div class="col-md-6 col-sm-12">
+                {% comment %} <h2 class="section-title datails mb-4">Details</h2> {% endcomment %}
+                <div class="progress-text">
+                    <div class="row rowview">
+                        <div class="col-3">Resume:</div>
+                        {% if emp.resume %}
+                        <div class="col-7 view-bttn"><a href="{{ emp.resume.url }}" target="_blank">view</a></div>
+                        {% else %}
+                        <div class="col-7 view-bttn">Not Uploaded</div>
+                        {% endif %}
+                    </div>
+                </div>
+                <br>
+                <div class="progress-text">
+                    <div class="row rowview">
+                        <div class="col-3">Photo:</div>
+                        {% if emp.picture %}
+                        <div class="col-7 view-bttn"><a href="{{ emp.picture.url }}" target="_blank">view</a></div>
+                        {% else %}
+                        <div class="col-7 view-bttn">Not Uploaded</div>
+                        {% endif %}
+                    </div>
+                </div>
+                <br>
+                <div class="progress-text">
+                    <div class="row rowview">
+                        <div class="col-3">Edu Docs:</div>
+                        {% if emp.edu_docs %}
+                        <div class="col-7 view-bttn"><a href="{{ emp.edu_docs.url }}" target="_blank">view</a></div>
+                        {% else %}
+                        <div class="col-7 view-bttn">Not Uploaded</div>
+                        {% endif %}
+                    </div>
+                </div>
+                <br>
+                <div class="progress-text">
+                    <div class="row rowview">
+                        <div class="col-3">Aadhar:</div>
+                        {% if emp.aadhar %}
+                        <div class="col-7 view-bttn"><a href="{{ emp.aadhar.url }}" target="_blank">view</a></div>
+                        {% else %}
+                        <div class="col-7 view-bttn">Not Uploaded</div>
+                        {% endif %}
+                    </div>
+                </div>                  
+
+                <br>
+                <div class="progress-text">
+                    <div class="row rowview">
+                        <div class="col-3">PAN:</div>
+                        {% if emp.pan %}
+                        <div class="col-7 view-bttn"><a href="{{ emp.pan.url }}" target="_blank">view</a></div>
+                        {% else %}
+                        <div class="col-7 view-bttn">Not Uploaded</div>
+                        {% endif %}
+                    </div>
+                </div>
+                <br>
+                <div class="progress-text">
+                    <div class="row rowview">
+                        <div class="col-3">Certificate:</div>
+                        {% if emp.certificate %}
+                        <div class="col-7 view-bttn"><a href="{{ emp.certificate.url }}" target="_blank">view</a></div>
+                        {% else %}
+                        <div class="col-7 view-bttn">Not Uploaded</div>
+                        {% endif %}
+                    </div>
+                </div>
+                <br>
+            </div>
+        </div> 
+    </div>
+
+
+        </div>
+    </div>
+</section>
+{% endblock content %}

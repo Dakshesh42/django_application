@@ -1,0 +1,373 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block msg %}
+    {% if messages %}
+    {% for message in messages %}
+    <div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissable fade show" {% endif %}> <strong>{{message}}</strong><button type="button" class="close" data-dismiss="alert" area-label="Close"><span area-hidden="True">&times;</span></button></div>
+    {% endfor %}
+    {% endif %}
+{% endblock msg %}
+
+{% block content %} 
+<div class="backbtn-sec">
+<h3 class="mt-4">Project Details</h3>
+<a href="{% url 'view-project' %}" ><i class="fa fa-arrow-left mr-1" aria-hidden="true"></i>  Back</a>
+</div>
+
+<div class=" d-flex ddd-flex">
+    <div class="card profile-box flex-fill mt-1">
+      <div class="card-body">
+        <h3 class="card-title">Resources of {{ el.project_name }}</h3>             
+          <div class="view-table view-2-table">
+            <table id="table_id" class="display">
+              <thead>
+                <tr>
+                    <tr>
+                        <th scope="col">Resource ID</th>
+                        <th scope="col">Employee Name</th>
+                        <th scope="col">Hours Assigned</th>
+                        <th scope="col">Max Hours Assigned</th>
+                        <th scope="col">Utilized Hours</th>
+                        <th scope="col">Start Date</th>
+                        <!-- <th scope="col">Action</th> -->
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for r in utilized_list %}
+                      <tr>
+                        
+                        <td class="text"><a style="color:inherit;" href="{% url 'edit-resource' r.res_id %}">{{ r.res_id }}</a></td>
+                        <td class="text">{{ r.emp_name }}</td>
+                        <td class="text">{{ r.hours_assigned }}</td>
+                        <td class="text">{{ r.max_hours_assigned }}</td>
+                        <td class="text">{{ r.utilized_hours }}</td>
+                        <td class="text">{{ r.start_date }}</td>
+                        <!-- <td class="text">
+                          <form action="{% url 'delete-resource' r.res_id %}" method="post" class="d-inline"> 
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-danger btn-sm" value="Delete">
+                            
+                          </form>
+                        </td> -->
+                </tr>
+                  {% endfor %}
+                </tbody>
+                  </table> 
+                  </div>
+                </div>
+              </div>
+            </div>
+<br>
+
+<br>
+
+<div class="accordion accordion-sprint mt-2" id="accordionExample">
+  {% for milestone, sprints in milestone_dict.items %}
+  <div class="accor-item-main">
+      <div class="accordion-item">
+          <h5 class="accordion-header" id="headingThree{{ milestone.id }}">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ milestone.id }}" aria-expanded="false" aria-controls="collapse{{ milestone.id }}">
+                  <b>Milestone Name :</b> {{ milestone.name }} | <b>Milestone Hours :</b> {{ milestone.duration }} | <b>Delivery Date :</b> {{ milestone.delivery_date }}
+              </button>
+          </h5>
+          <div id="collapse{{ milestone.id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ milestone.id }}" data-bs-parent="#accordionExample">
+              {% if sprints %}
+              <div class="accordion-body">
+                  <table class="table table-striped">
+                      <thead>
+                          <tr>
+                              <th>Sprint Name</th>
+                              <th>Sprint Hours</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {% for sprint in sprints %}
+                          <tr>
+                              <td>{{ sprint.name }}</td>
+                              <td>{{ sprint.duration }}</td>
+                          </tr>
+                          {% endfor %}
+                      </tbody>
+                  </table>
+              </div>
+              {% else %}
+              <div class="accordion-body">
+                  No sprints found.
+              </div>
+              {% endif %}
+          </div>
+      </div>
+      <!-- Button trigger modal -->
+      <button id="add-sprint-btn-{{ milestone.id }}" class="btn btn-primary sprint-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" value="{{ milestone.id }}" data-milestone-id="{{ milestone.id }}">
+          Add Sprint
+      </button>
+  </div>
+{% endfor %}
+
+
+  <div class="mmodal modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Sprint</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+         <form method="POST" action="" id="spr-form">
+           {% csrf_token%}
+           <input type="hidden" id="milestone-id" name="milestone" value="">
+           <div class="form-group">
+               <label for="id_name">Name:</label>
+               <input type="text" name="name" class="form-control" maxlength="100" required="" id="id_name">
+                          
+              </div>
+           
+              <div class="form-group">
+                  <label for="id_hours">Hours:</label>
+                  <input type="number" name="hours" class="form-control" required="" id="id_hours">
+                  
+              </div>
+              
+              
+     
+              <button id="Add-forms-btn" class="btn btn-primary">Submit</button>
+     
+     
+          </form>
+           </div>
+           <div class="modal-footer">
+             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+             <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
+ 
+<br>
+<div class=" d-flex ddd-flex">
+    <div class="card profile-box flex-fill mt-4">
+      <div class="card-body">
+        <h3 class="card-title">{{ el.project_name }} Details</h3>
+<div class="progress-text">
+    <div class="row">
+        <div class="col-md-4 col-divs">
+            <div class="labels">Min Hours:</div>
+            <div class="details det-two">{{ el.display_duration }}</div>
+        </div>
+        <div class="col-md-4 col-divs">
+            <div class="labels">Max Hours:</div>
+            <div class="details det-two">{{ el.display_duration_max }}</div>
+        </div>
+        <div class="col-md-4 col-divs">
+            <div class="labels">Currency:</div>
+            <div class="details det-two">{{ el.currency }}</div>
+        </div>
+        <div class="col-md-4 col-divs">
+            <div class="labels">Project Value:</div>
+            <div class="details det-two">{{ el.project_value }}</div>
+        </div>
+        <!-- <div class="col-md-4 col-divs">
+            <div class="labels">Project Name:</div>
+            <div class="details det-two">{{ el.project_name }}</div>
+        </div> -->
+        <div class="col-md-4 col-divs">
+            <div class="labels">Start Date:</div>
+            <div class="details det-two">{{ el.start_date }}</div>
+        </div>
+        <div class="col-md-4 col-divs">
+            <div class="labels">Delivery Date:</div>
+            <div class="details det-two">{{ el.delivery_date }}</div>
+        </div>
+    </div>
+ </div>
+</div>
+</div>
+</div>
+<br>
+
+<div class=" d-flex ddd-flex">
+    <div class="card profile-box flex-fill mt-4">
+      <div class="card-body">
+        <h3 class="card-title"> Client Details</h3>
+<div class="progress-text">
+    <div class="row">
+        <div class="col-md-4 col-divs">
+            <div class="labels">Company Name:</div>
+            <div class="details det-two">{{ el.client.company_name }}</div>
+        </div>
+        <div class="col-md-4 col-divs">
+            <div class="labels">Client Name:</div>
+            <div class="details det-two">{{ el.client }}</div>
+        </div>
+        <div class="col-md-4 col-divs">
+            <div class="labels">Client Mobile:</div>
+            <div class="details det-two">{{ el.client_contact }}</div>
+        </div>
+        
+        <!-- <div class="col-md-4 col-divs">
+            <div class="labels">Date Added:</div>
+            <div class="details det-two">{{ el.date }}</div>
+        </div>
+
+        <div class="col-md-4 col-divs">
+            <div class="labels">Start Date:</div>
+            <div class="details det-two">{{ el.start_date }}</div>
+        </div>
+        <div class="col-md-4 col-divs">
+            <div class="labels">Delivery Date:</div>
+            <div class="details det-two">{{ el.delivery_date }}</div>
+        </div> -->
+        <div class="col-md-4 col-divs">
+            <div class="labels">Client Contact Name:</div>
+            <div class="details det-two">{{ el.client }}</div>
+        </div>
+
+        <div class="col-md-4 col-divs">
+            <div class="labels">Client Contact Mobile:</div>
+            <div class="details det-two">{{ el.client_contact }}</div>
+        </div>
+        <div class="col-md-4 col-divs">
+            <div class="labels">Company Address :</div>
+            <div class="details det-two">UAE</div>
+        </div>
+    </div>
+ </div>
+</div>
+</div>
+</div>
+<br>
+
+<div class=" d-flex ddd-flex">
+    <div class="card profile-box flex-fill mt-4">
+      <div class="card-body">
+        <h3 class="card-title"> Other Details</h3>
+<div class="progress-text">
+    <div class="row">
+        <div class="col-md-4 col-divs">
+            <div class="labels">Project ID:</div>
+            <div class=" details det-two">{{ el.id }}</div>
+        </div>
+        <div class="col-md-4 col-divs">
+            <div class="labels">Hours Approved by:</div>
+            <div class="det-two details">{{ el.hours_approvedby }}</div>
+        </div>
+        <div class="col-md-4 col-divs">
+            <div class="labels">Project Type:</div>
+            <div class="det-two details">{{ el.type }}</div>
+        </div>
+        
+        <div class="col-md-4 col-divs">
+            <div class="labels">Sales Rep:</div>
+            <div class="det-two details">{{ el.sales_rep }}</div>
+        </div>
+
+        <div class="col-md-4 col-divs">
+            <div class="labels">Project Manager:</div>
+            <div class="det-two details">{{ el.project_manager }}</div>
+        </div>
+        <div class="col-md-4 col-divs">
+            <div class="labels">Status:</div>
+            <div class="det-two details">{{ el.get_status_display }}</div>
+        </div>
+    </div>
+ </div>
+</div>
+</div>
+</div>
+<br>
+
+<div class=" d-flex ddd-flex">
+  <div class="card profile-box flex-fill mt-1">
+    <div class="card-body">
+      <h3 class="card-title">Milestone for {{ el.project_name }}</h3>             
+        <div class="view-table view-2-table">
+          <table id="table_id2" class="display">
+            <thead>
+              <tr>
+                      <th scope="col">Milestone ID</th>
+                      <th scope="col">MileStone Name</th>
+                      <th scope="col">Project ID</th>
+                      <th scope="col">Project Name</th>
+                      <th scope="col">Hours</th>
+                      <th scope="col">Delivery Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for m in mile %}
+                  <tr>
+                      <td class="text">{{ m.id }}</a></td>
+                      <td class="text">{{ m.name }}</td>
+                      <td class="text">{{ m.project.id }}</td>
+                      <td class="text">{{ m.project.project_name }}</td>
+                      <td class="text">{{ m.hours }}</td>
+                      <td class="text">{{ m.delivery_date }}</td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+                </table> 
+                </div>
+              </div>
+            </div>
+          </div>
+
+<br>
+<script>
+    var milestoneId;
+    $(document).ready(function () {
+      // $("#add-sprint-btn").click(function (e) {
+        $("[id^='add-sprint-btn-']").click(function (e) {
+        e.preventDefault(); // prevent the form from being submitted normally
+        milestoneId = $(this).data("milestone-id");
+        var buttonValue = $(this).val();
+        console.log(buttonValue);
+        console.log("Milestone ID:", milestoneId);
+        $("#milestone-id").val(milestoneId);
+      });
+
+      $("#spr-form").submit(function (e) {
+        e.preventDefault();
+        var form_data = {};
+        $(form_data).each(function(index, obj){
+          form_data[obj.name] = obj.value;
+        });
+
+        console.log('Form data: ', form_data)
+        console.log('milestoneId: ', milestoneId)
+        var nameValue = $('#id_name').val();
+        var hoursValue = $('#id_hours').val();
+        $.ajax({
+          type: "POST",
+          url: "/add-sprint/",
+          dataType: 'json',
+          data: {
+              'form': form_data,
+              'mile': milestoneId,
+              'name':nameValue,
+              'hours':hoursValue,
+              csrfmiddlewaretoken: '{{ csrf_token }}',
+            },
+            
+          success: function (data) {
+            
+            alert(data.message); // show the success message
+            $("#spr-form")[0].reset(); // reset the form
+            $(".btn-secondary[data-bs-dismiss='modal']").trigger("click");
+            location.reload();            
+          },
+          error: function (xhr, status, error) {
+            
+            // handle error here
+            console.log('Error:', JSON.parse(error));
+            console.error('Status:', xhr.status);
+            console.error('Status Text:', xhr.statusText);
+            console.error('Response:', xhr.responseText);
+            alert("An error occurred!"); // show the error message
+          }
+        });
+      });
+    });
+  
+</script>
+
+{% endblock content %}

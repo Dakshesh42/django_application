@@ -1,0 +1,113 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block msg %}
+{% if messages %}
+{% for message in messages %}
+<div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissable fade show" {% endif %}>
+    <strong>{{message}}</strong><button type="button" class="close" data-dismiss="alert" area-label="Close"><span
+            area-hidden="True">&times;</span></button></div>
+{% endfor %}
+{% endif %}
+{% endblock msg %}
+{% block content %}
+<br>
+
+
+<!-- <h3 class="text-center">NDA Document</h3> -->
+
+<div class="tabs tabs-sec" ews-tab>
+    <div class="tab-selectors">
+      <button type="button" ews-tab-selector="tab-1">New NDA</button>
+      <button type="button" ews-tab-selector="tab-2">Sent NDA</button>
+    </div>
+
+    <div class="tab-contents">
+      <div class="tab-content" ews-tab-content="tab-1">
+        <p>
+            <div class="jumbotron jumbo-color">
+    
+                <div class="container employee-details">
+                    
+                    <form method="POST" action="">
+                        {% csrf_token%}
+                        {% for fm in form %}
+                        <div class="form-group">
+                            {{ fm.label_tag }}
+                            {{ fm }}
+                            {{ fm.errors|striptags }}
+                        </div>
+                        {% endfor %}
+                        {% if form.non_field_errors %}
+                        {% for error in form.non_field_errors %}
+                        <p class="alert alert-danger my-3">{{error}}</p>
+                        {% endfor %}
+                        {% endif %}
+                    
+                        <input class="button login-btn" type="submit" name="Add Menu"/>
+                    </form>
+                    
+                </div>
+            </div>
+        </p>
+      </div>
+      
+      <div class="tab-content" ews-tab-content="tab-2">
+        <div class="view-table employee-table mt-3">
+        <table class="display" id="table-pdf">
+            <thead>
+                <tr>
+                    <th>Sr. No</th>
+                    <th>Client Name</th>
+                    <th>Client Email</th>
+                    <th>Staff Name</th>
+                    <th>Staff Email</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <td>1</td>
+                <td>Mr. Hemant Vishwakarma</td>
+                <td>hemant@wdimails.com</td>
+                <td>Rizwan</td>
+                <td>rizwan@wdimails.com</td>
+                <td class="text formview">
+                    
+                    <div id="wrap">
+                          <a href="#"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>  
+                      </div>
+
+                    <a href="#" class="">
+                        <span class="svg-icon svg-icon-3">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.3" d="M21.4 8.35303L19.241 10.511L13.485 4.755L15.643 2.59595C16.0248 2.21423 16.5426 1.99988 17.0825 1.99988C17.6224 1.99988 18.1402 2.21423 18.522 2.59595L21.4 5.474C21.7817 5.85581 21.9962 6.37355 21.9962 6.91345C21.9962 7.45335 21.7817 7.97122 21.4 8.35303ZM3.68699 21.932L9.88699 19.865L4.13099 14.109L2.06399 20.309C1.98815 20.5354 1.97703 20.7787 2.03189 21.0111C2.08674 21.2436 2.2054 21.4561 2.37449 21.6248C2.54359 21.7934 2.75641 21.9115 2.989 21.9658C3.22158 22.0201 3.4647 22.0084 3.69099 21.932H3.68699Z" fill="currentColor"></path>
+                                <path d="M5.574 21.3L3.692 21.928C3.46591 22.0032 3.22334 22.0141 2.99144 21.9594C2.75954 21.9046 2.54744 21.7864 2.3789 21.6179C2.21036 21.4495 2.09202 21.2375 2.03711 21.0056C1.9822 20.7737 1.99289 20.5312 2.06799 20.3051L2.696 18.422L5.574 21.3ZM4.13499 14.105L9.891 19.861L19.245 10.507L13.489 4.75098L4.13499 14.105Z" fill="currentColor"></path>
+                            </svg>
+                        </span>
+                    </a>
+                    <a href=""><i class="fa fa-cloud-download" aria-hidden="true"></i></a>
+                </td>
+            </tbody>
+        </table>
+        
+    </div>
+
+    <div id="popup">
+          <div class="close-btn">
+            <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a>
+          </div>
+            <div class="text-area">
+                <textarea name="" id="" cols="50" rows="6" placeholder="message"></textarea>
+                <div class="filename">
+                    <div class="file-inner">Filename.pdf</div>
+                    <div class="file-inner"><a href="">Send</a></div>
+                </div>
+            </div>
+      </div>
+
+
+      </div>
+    </div>
+  </div>
+
+
+{% endblock content %}

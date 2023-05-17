@@ -1,0 +1,140 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block msg %}
+{% if messages %}
+{% for message in messages %}
+<div {% if message.tags %} class=" alert alert-{{message.tags}} alert-dismissable fade show" {% endif %}>
+    <strong>{{message}}</strong><button type="button" class="close" data-dismiss="alert" area-label="Close"><span
+            area-hidden="True">&times;</span></button></div>
+{% endfor %}
+{% endif %}
+{% endblock msg %}
+
+{% block content %}
+<div class="t_height_emp-dahsh">
+<h2>Employee Dashboard</h2>
+<!-- <h3>Today's Attendance</h3> -->
+<div class="information mt-10">
+    <div class="row">
+        <div class="attend-card">
+            <div class="card profile-box flex-fill mb-10">
+                  <div class="card-body">
+                    <h4>Today's Attendance</h4>
+                    {% comment %} {% if checkin %}
+                    {% if checkin.checkin|date:"g:i a" < "12:31 PM" %}
+                        <p style="color: green;">On Time | Check-in: {{ checkin.checkin|date:"D, M d, Y, g:i a" }}</p>
+                        <p>Supposed Check-out Time: {{ supposed|date:"D, M d, Y, g:i a" }}</p>
+                    {% else %}
+                        <p style="color: red;">Late Check-in | Check-in: {{ checkin.checkin|date:"D, M d, Y, g:i a" }}</p>
+                        <p>Supposed Check-out Time: {{ supposed|date:"D, M d, Y, g:i a" }}</p>
+                    {% endif %}
+                    {% else %}
+                    <p>No Check-IN record found for today.</p>
+                    {% endif %}
+                    {% if checkout %}
+                    <p>Check-OUT: {{ checkout.checkout|date:"D, M d, Y, g:i a" }}</p>
+                    {% else %}
+                    <p>No Check-OUT record found for today.</p>
+                    {% endif %}   {% endcomment %}
+                    
+                      {% if checkin %}
+                      <div class="checkin">
+                        {% if checkin.checkin|date:"g:i a" < "12:31 PM" %}
+                        <div class="progress-text">
+                            <div class="col-3">Check-IN:</div>
+                            <div style="color:green;" class="col-7 details">On Time | {{ checkin.checkin|date:"D, M d, Y, g:i a" }}</div>
+                        </div>
+
+                        <div class="progress-text">
+                            <div class="col-3">Expected Check-OUT:</div>
+                            <div class="col-7 details">{{ supposed|date:"D, M d, Y, g:i a" }}</div>
+                        </div>
+                    
+                       {% else %}
+                        <div class="progress-text">
+                            <div class="col-3">Check-IN:</div>
+                            <div style="color:red;" class="col-7 details">Late | {{ checkin.checkin|date:"D, M d, Y, g:i a" }}</div>
+                        </div>
+
+                        <div class="progress-text">
+                            <div class="col-3">Expected Check-OUT:</div>
+                            <div class="col-7 details">{{ supposed|date:"D, M d, Y, g:i a" }}</div>
+                       </div>
+                        {% endif %}
+                  
+                        {% else %}
+                        <div class="checkin">
+                          <div class="progress-text">
+                              <div class="col-3">Check-IN:</div>
+                              <div class="col-7 details">No Check-IN record found for today.</div>
+                          </div>
+                        
+                        {% endif %}
+                        {% if checkout %}
+                     
+                          <div class="progress-text">
+                            <div class="col-3">Check-OUT:</div>
+                            <div class="col-7 details">{{ checkout.checkout|date:"D, M d, Y, g:i a" }}</div>
+                          </div>
+                        </div>
+                      
+                   
+                        {% else %}
+                     
+                        <div class="progress-text">             
+                            <div class="col-3">Check-OUT:</div>
+                            <div class="col-7 details">No Check-OUT record found for today.</div>                        
+                       </div>
+                     
+                    {% endif %}
+                     
+                  </div>
+                  
+                  <form class="submit-btn" method="post">
+                    {% csrf_token %}
+                    {{ checkout_form.as_p }}
+                    <input type="submit" name="checkout" value="Check-out">
+                  </form>
+               </div>
+            
+              </div>
+           </div>
+         </div>
+
+<!-- <h2>Assigned Tasks</h2> -->
+    
+        <div class=" d-flex ddd-box">
+            <div class="card profile-box flex-fill">
+                <div class="card-body">
+                    <h3 class="card-title">Assigned Tasks/Projects</h3>
+                    <div class="view-table view-2-table">
+                        <table class="table">
+                            <thead>
+                              <tr>
+                                <th>Project Name</th>
+                                <th>Consumed Hours</th>
+                                <th>Min Hours Assigned</th>
+                                <th>Max Hours Assigned</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for project in projects %}
+                                <tr>
+                                  <td>{{ project.project_name }}</td>
+                                  <td>{{ project.hours_consumed }}</td>
+                                  <td>{{ project.hours_assigned }}</td>
+                                  <td>{{ project.max_hours_assigned }}</td>
+                                  
+                                </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+
+        
+
+{% endblock content %}

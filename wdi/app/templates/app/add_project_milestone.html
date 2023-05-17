@@ -1,0 +1,245 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block msg %}
+{% if messages %}
+{% for message in messages %}
+<div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissable fade show" {% endif %}>
+    <strong>{{message}}</strong><button type="button" class="close" data-dismiss="alert" area-label="Close"><span
+            area-hidden="True">&times;</span></button>
+</div>
+{% endfor %}
+{% endif %}
+{% endblock msg %}
+{% block content %}
+<h3 class="text-center">Add Project</h3>
+<div class="jumbotron jumbo-color">
+    <div class="container employee-details employee-adds">
+
+        <form method="POST" action="" id="parent-form">
+            {% csrf_token%}
+            {% for fm in form %}
+            <div class="form-group">
+                {{ fm.label_tag }}
+                {{ fm }}
+                {{ fm.errors|striptags }}
+            </div>
+            {% endfor %}
+            {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+            <p class="alert alert-danger my-3">{{error}}</p>
+            {% endfor %}
+            {% endif %}
+
+            <button id="create-forms-btn">Create Forms</button>
+
+
+        </form>
+
+
+    </div>
+</div>
+
+<div class="jumbotron jumbo-color mile">
+    <div class="">
+        <form id="forms-container">
+            {% csrf_token %}
+        </form>
+
+        <button id="mileSubmit" type="submit">Submit</button>
+    </div>
+</div>
+
+<script>
+    const milestoneArr = [];
+    $(".jumbotron.jumbo-color.mile").hide();
+    $(document).ready(function () {
+        
+        $("#create-forms-btn").on("click", function (event) {
+            event.preventDefault();
+            
+            const numInput = $("#num-input");
+            const num = parseInt(numInput.val());
+            const token = '{% csrf_token %}'
+
+            if (Number.isInteger(num) && num > 0) {
+                $(".jumbotron.jumbo-color.mile").show();
+            } else {
+                $(".jumbotron.jumbo-color.mile").hide();
+            }
+
+            $("#forms-container").empty();
+            
+            for (let i = 1; i <= num; i++) {
+
+                const formId = `form-${i}`;
+                const form = $("<form>").attr("id", formId);
+                const formGroup = $("<div>").addClass("form-group");
+
+                const milestoneLabel = $("<label>")
+                    .attr("for", `milestone-${i}`)
+                    .text(`M Name ${i}:`);
+                const milestoneInput = $("<input>")
+                    .attr("id", `milestone-${i}`)
+                    .attr("type", "text");
+
+
+                const hoursLabel = $("<label>")
+                    .attr("for", `hours-${i}`)
+                    .text(`M Hours ${i}:`);
+                const hoursInput = $("<input>")
+                    .attr("id", `hours-${i}`)
+                    .attr("type", "text");
+
+
+                const dateLabel = $("<label>")
+                    .attr("for", `date-${i}`)
+                    .text(`M Delivery Date ${i}:`);
+                const dateInput = $("<input>")
+                    .attr("id", `date-${i}`)
+                    .attr("type", "date");
+
+
+                //   form.append(
+                //     milestoneLabel,
+                //     milestoneInput,
+                //     hoursLabel,
+                //     hoursInput,
+                //     dateLabel,
+                //     dateInput
+                //   );
+
+                formGroup.append(milestoneLabel, milestoneInput);
+                formGroup.append(hoursLabel, hoursInput);
+                formGroup.append(dateLabel, dateInput);
+                // form.append('{% csrf_token %}')
+
+                form.append(token, formGroup);
+
+                $("#forms-container").append(form);
+
+            }
+        });
+    });
+
+    // Assuming the form element has an ID of "milestone-form"
+    // const form = $("#form");
+
+    $("#mileSubmit").click(function (event) {
+        // Prevent the default form submission behavior
+        event.preventDefault();
+        console.log("Inside Form Submit...")
+        if (milestoneArr.length === 0) {
+
+            // var parentFormData = $('#parent-form').serialize();
+            // console.log("Serialize: ",parentFormData)
+            // var htmlContent = $('#forms-container').html();
+            // console.log(htmlContent)
+            var parentFormData = $('#parent-form').serializeArray();
+
+            console.log('parentFormData: ',parentFormData)
+            var formValid = true;
+            parentFormData.forEach(function (input) {
+                if (input.value === '') {
+                    formValid = false;
+                    return false; // stops the loop early
+                }
+            });
+
+            if (!formValid) {
+                // Stop executing
+                console.log("Invalid Project Form..")
+                return;
+            }
+
+            console.log("Valid Project Form")
+            var formData = parentFormData.reduce(function (obj, item) {
+                obj[item.name] = item.value;
+                return obj;
+            }, {});
+
+            var htmlForm = $('#forms-container').find('form');
+
+            console.log(htmlForm.length)
+            for (let i = 1; i <= htmlForm.length; i++) {
+
+                var milestoneValue = $(`#milestone-${i}`).val();
+                var hoursValue = $(`#hours-${i}`).val();
+                var dateValue = $(`#date-${i}`).val();
+
+
+                if (!/^[a-zA-Z\s]+$/.test(milestoneValue)) {
+                    alert(`Milestone ${i} should contain only alphabets`);
+                    milestoneArr.splice(0, milestoneArr.length);
+                    console.log('length', milestoneArr.length)
+                    return; // Stop execution
+                }
+
+                // Check if hoursValue is a valid integer
+                if (!/^\d+$/.test(hoursValue)) {
+                    alert(`Hours ${i} should be a valid integer`);
+                    milestoneArr.splice(0, milestoneArr.length);
+                    console.log('length', milestoneArr.length)
+                    return; // Stop execution
+                }
+                if (!Number.isInteger(parseInt(hoursValue))) {
+                    alert(`Hours ${i} should be a valid integer`);
+                    milestoneArr.splice(0, milestoneArr.length); 
+                    console.log('length',milestoneArr.length)
+                    return; // Stop execution
+                }
+
+                // Check if dateValue is a valid date in the YYYY-MM-DD format
+                if (!/^\d{4}-\d{2}-\d{2}$/.test(dateValue)) {
+                    alert(`Date ${i} should be a valid date in the format YYYY-MM-DD`);
+                    milestoneArr.splice(0, milestoneArr.length); 
+                    console.log('length',milestoneArr.length)
+                    return; // Stop execution
+                }
+
+
+                milestoneArr.push({ 'mileName': milestoneValue, 'mileHour': hoursValue, 'mileDate': dateValue })
+            }
+
+            console.log(milestoneArr)
+            console.log(typeof (milestoneArr))
+
+            // validation on milestone hours 
+            var totalHours = milestoneArr.reduce(function (sum, milestone) {
+                return sum + parseFloat(milestone.mileHour);
+            }, 0);
+
+            if (totalHours > parseFloat(formData.max_hours)) {
+                alert('The sum of milestone hours cannot exceed the project hours.');
+                milestoneArr.splice(0, milestoneArr.length); 
+                console.log('length',milestoneArr.length)
+                return;
+            } else {
+                // Send the milestone data to the Django views using AJAX
+                $.ajax({
+                    url: "/add-project-milestone/",
+                    type: "POST",
+                    dataType: 'json',
+                    data: {
+                        'milestoneArr': JSON.stringify(milestoneArr),
+                        'project': JSON.stringify(formData),
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        window.location.href = '/view-project/';
+                        
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+        } else {
+            console.log('length',milestoneArr.length)
+            // location.reload();
+        }
+
+    });
+
+</script>
+{% endblock content %}

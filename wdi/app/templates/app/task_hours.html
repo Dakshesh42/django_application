@@ -1,0 +1,38 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block msg %}
+    {% if messages %}
+    {% for message in messages %}
+    <div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissable fade show" {% endif %}> <strong>{{message}}</strong><button type="button" class="close" data-dismiss="alert" area-label="Close"><span area-hidden="True">&times;</span></button></div>
+    {% endfor %}
+    {% endif %}
+{% endblock msg %}
+{% block content %}
+
+{% for employee, tasks in employee_tasks.items %}
+  <h3>{{ employee }}</h3>
+  <div class="view-table">
+  <table class="table">
+    <thead class="thead-darks">
+      <tr>
+        <th>Project</th>
+        <th>Task</th>
+        <th>Assigned Hours</th>
+        <th>Consumed Hours</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for task in tasks %}
+        <tr>
+          <td>{{ task.project }}</td>
+          <td>{{ task.task }}</td>
+          <td>{{ task.assigned_hours }}</td>
+          <td>{{ task.consumed_hours }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endfor %}
+
+{% endblock content %}

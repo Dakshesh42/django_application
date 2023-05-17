@@ -1,0 +1,305 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block msg %}
+{% if messages %}
+{% for message in messages %}
+<div {% if message.tags %} class=" alert alert-{{message.tags}} alert-dismissable fade show" {% endif %}>
+    <strong>{{message}}</strong><button type="button" class="close" data-dismiss="alert" area-label="Close"><span
+            area-hidden="True">&times;</span></button></div>
+{% endfor %}
+{% endif %}
+{% endblock msg %}
+
+{% block content %}
+<h2>Admin Dashboard</h2>
+<!-- <h3>Today's Attendance</h3> -->
+<div class="information mt-10">
+    {% comment %} <div class="row">
+        <div class="attend-card">
+            <div class="card profile-box flex-fill">
+                  <div class="card-body">
+                    <h4>Today's Attendance</h4>
+                    
+                    
+                      {% if checkin %}
+                      <div class="checkin">
+                        {% if checkin.checkin|date:"g:i a" < "12:31 PM" %}
+                        <div class="progress-text">
+                            <div class="col-3">Check-IN:</div>
+                            <div style="color:green;" class="col-7 details">On Time | {{ checkin.checkin|date:"D, M d, Y, g:i a" }}</div>
+                        </div>
+
+                        <div class="progress-text">
+                            <div class="col-3">Expected Check-OUT:</div>
+                            <div class="col-7 details">{{ supposed|date:"D, M d, Y, g:i a" }}</div>
+                        </div>
+                    
+                       {% else %}
+                        <div class="progress-text">
+                            <div class="col-3">Check-IN:</div>
+                            <div style="color:red;" class="col-7 details">Late | {{ checkin.checkin|date:"D, M d, Y, g:i a" }}</div>
+                        </div>
+
+                        <div class="progress-text">
+                            <div class="col-3">Expected Check-OUT:</div>
+                            <div class="col-7 details">{{ supposed|date:"D, M d, Y, g:i a" }}</div>
+                       </div>
+                        {% endif %}
+                  
+                        {% else %}
+                        <div class="checkin">
+                          <div class="progress-text">
+                              <div class="col-3">Check-IN:</div>
+                              <div class="col-7 details">No Check-IN record found for today.</div>
+                          </div>
+                        
+                        {% endif %}
+                        {% if checkout %}
+                     
+                          <div class="progress-text">
+                            <div class="col-3">Check-OUT:</div>
+                            <div class="col-7 details">{{ checkout.checkout|date:"D, M d, Y, g:i a" }}</div>
+                          </div>
+                        </div>
+                      
+                   
+                        {% else %}
+                     
+                        <div class="progress-text">             
+                            <div class="col-3">Check-OUT:</div>
+                            <div class="col-7 details">No Check-OUT record found for today.</div>                        
+                       </div>
+                     
+                    {% endif %}
+                     
+                  </div>
+                  
+                  <form class="submit-btn" method="post">
+                    {% csrf_token %}
+                    {{ checkout_form.as_p }}
+                    <input type="submit" name="checkout" value="Check-out">
+                  </form>
+               </div>
+            
+              </div>
+           </div>
+         </div> {% endcomment %}
+
+<!-- <h2>Assigned Tasks</h2> -->
+    
+<div class="row">
+  <div class=" d-flex ddd-flex col-md-6 ">
+    
+      <div class="card profile-box flex-fill">
+          <div class="card-body">
+            <h3 class="card-title">On-Time</h3>       
+              <div class="view-table view-2-table">
+                  <table id="table_ontime" class="display">
+                      <thead>
+                        <tr>
+                          <th>Emp Name</th>
+                          <th>Check-In</th>
+                          <th>Check-Out</th>
+                          
+                          
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for employee in before_1230_employees %}
+                          <tr>
+                          <td>{{ employee.name }}</td>
+                          <td>{{ employee.checkin|time:"H:i" }}</td>
+                          <td>{{ employee.checkout|time:"H:i" }}</td>
+                          
+                          </tr>
+                          {% endfor %}
+                      </tbody>
+                    </table>
+              </div>
+              
+          </div>
+          
+      </div>
+
+  </div>
+
+  <div class=" d-flex ddd-flex col-md-6">
+    
+    <div class="card profile-box flex-fill">
+        <div class="card-body">
+          <h3 class="card-title">Late Check-In</h3>       
+            <div class="view-table view-2-table">
+                <table id="table_late" class="display">
+                    <thead>
+                      <tr>
+                        <th>Emp Name</th>
+                    <th>Check-In</th>
+                  <th>Check-Out</th>
+                    
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for employee in after_1230_employees %}
+                      <tr>
+                        <td>{{ employee.name }}</td>
+                        <td>{{ employee.checkin|time:"H:i" }}</td>
+                        <td>{{ employee.checkout|time:"H:i" }}</td>
+                        
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+            </div>
+            
+        </div>
+        
+    </div>
+
+</div>
+</div>
+
+<br>   
+<div class="row">
+<div class=" d-flex ddd-flex col-md-6">
+          
+  <div class="card profile-box flex-fill">
+      <div class="card-body">
+        <h3 class="card-title">Not Check-In</h3>               
+          <div class="view-table view-2-table">
+            <table id="table_notcheck" class="display">
+  <thead>
+      <tr>
+          <th>Emp Name</th>
+          <th>Action</th>
+          
+      </tr>
+  </thead>
+  <tbody>
+      {% for employee in employees_not_checked_in %}
+          <tr>
+              <td>{{ employee.first_name }}</td>
+              <td>
+                  <form method="POST" action="{% url 'mark_absent' %}">
+                      {% csrf_token %}
+                      <input type="hidden" name="employee_id" value="{{ employee.id }}">
+                      <button type="submit" class="btn btn-success btn-sm">Mark Absent</button>
+                  </form>
+              </td>
+              
+          </tr>
+      {% endfor %}
+  </tbody>
+</table></div>
+                
+</div>
+
+</div>
+
+</div>
+
+
+<div class=" d-flex ddd-flex col-md-6">
+  <div class="card profile-box flex-fill">
+      <div class="card-body">
+        <h3 class="card-title">Absent</h3>               
+          <div class="view-table view-2-table">
+            <table id="table_absent" class="display">
+              <thead>
+                  <tr>
+                      <th>Emp Name</th>
+                      <th>Status</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for attendance in absent_list %}
+                      <tr>
+                          <td>{{ attendance.employee.first_name }}</td>
+                          <td>{{ attendance.get_status_display }}</td>
+                      </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+<br>
+
+<div class=" d-flex ddd-flex">
+  <div class="card profile-box flex-fill mb-3">
+      <div class="card-body">
+        <h3 class="card-title">All Employees Timing:</h3>               
+          <div class="view-table view-2-table">
+              <table id="table_id1" class="display">
+                  <thead>
+                    <tr>
+                      <th>Emp Code</th>
+                      <th>Emp Name</th>
+                      <th>Check-In</th>
+                      <th>Check-Out</th>
+                      <th>Status</th>
+                      
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for key, value in employee_times.items %}
+                    <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ value.name }}</td>
+                    <td {% if value.checkin|date:"H:i" > "12:30" %} style="color:red"{% else %} style="color:green"{% endif %}>{{ value.checkin|date:"H:i" }}</td>
+                    <td>{{ value.checkout                          }}</td>
+                      <td>{{ value.status }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+          </div>
+
+          
+          
+      </div>
+      
+  </div>
+
+</div>
+
+<div class=" d-flex ddd-flex">
+  <div class="card profile-box flex-fill mt-4">
+    <div class="card-body">
+      <h3 class="card-title">Yesterday IPS Records</h3>               
+        <div class="view-table view-2-table">
+          <table id="table_id" class="display">
+            <thead>
+              <tr>
+                <th>Emp Code</th>
+                <th>Emp Name</th>
+                <th>Project Name</th>
+                <th>Task Name</th>
+                <th>Hours Spent</th>
+                <th>Date Submitted</th>
+              </tr>
+            </thead>
+              <tbody>
+                {% for value in yesterday_ips %}
+              <tr>
+                <td>{{ value.employee.emp_id }}</td>
+                <td>{{ value.employee.first_name }}</td>
+                <td>{{ value.project }}</td>
+                <td>{{ value.task }}</td>
+                <td>{{ value.display_duration }}</td>
+                <td>{{ value.date }}</td>
+              </tr>
+                {% endfor %}
+              </tbody>
+                </table> 
+                </div>
+              </div>
+            </div>
+          </div>
+
+                     
+
+{% endblock content %}

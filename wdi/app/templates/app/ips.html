@@ -1,0 +1,74 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block msg %}
+{% if messages %}
+{% for message in messages %}
+<div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissable fade show" {% endif %}>
+    <strong>{{message}}</strong><button type="button" class="close" data-dismiss="alert" area-label="Close"><span
+            area-hidden="True">&times;</span></button></div>
+{% endfor %}
+{% endif %}
+{% endblock msg %}
+{% block content %}
+<div class="login-sec">
+    <div class="login-page">
+        {% if request.user.is_authenticated %}
+<form method="POST" action="">
+    {% csrf_token%}
+    <table id="ips-table">
+      <thead>
+        <tr>
+          <th>Task</th>
+          <th>Comments</th>
+          <th>Hours</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr id="form-row-0">
+          {% for fm in form %}
+          <td>{{ fm }}</td>
+          {% endfor %}
+          <td><a href="#" class="delete-row">Delete</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <input type="button" value="Add Row" id="add-row">
+    <input type="submit" value="Submit">
+  </form>
+  {% endif %}
+</div>
+</div>
+
+{% endblock content %}
+<script>
+    $(document).ready(function() {
+  var formCounter = 0;
+
+  $("#add-row").click(function() {
+    formCounter++;
+
+    var formHTML = `
+      <tr id="form-row-${formCounter}">
+        <td>
+          <select class="form-control" name="task-${formCounter}" id="id_task-${formCounter}">
+            {% for task in tasks %}
+            <option value="{{ task.pk }}">{{ task.name }}</option>
+            {% endfor %}
+          </select>
+        </td>
+        <td><input type="text" name="comments-${formCounter}" id="id_comments-${formCounter}" class="form-control"></td>
+        <td><input type="text" name="hours-${formCounter}" id="id_hours-${formCounter}" class="form-control"></td>
+        <td><a href="#" class="delete-row">Delete</a></td>
+      </tr>
+    `;
+
+    $("#ips-table tbody").append(formHTML);
+  });
+
+  $("#ips-table").on("click", ".delete-row", function() {
+    $(this).closest("tr").remove();
+  });
+});
+
+</script>
